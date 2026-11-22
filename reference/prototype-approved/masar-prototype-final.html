@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MASAR – Interactive Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=Cairo:wght@500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F2EA;--s1:#FFFFFF;--s2:#EAE5D8;--bd:rgba(10,28,32,.15);--tx:#0E2A2E;--mu:#566D6C;--br:#C6F36B;--brt:#2F6B12;--on:#0A1C20;--co:#D8502B;--ok:#1E9E6A;--er:#D44A4A;--r:14px;--ease:cubic-bezier(.2,.7,.2,1);--fh:"Space Grotesk",Cairo,sans-serif;--fb:Inter,"IBM Plex Sans Arabic",sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A1C20;--s1:#10282D;--s2:#173439;--bd:rgba(220,240,230,.12);--tx:#E9F1EC;--mu:#8FA8A6;--brt:#C6F36B;--co:#FF7A59;--ok:#5EE0A0;--er:#FF6B6B}}
+:root[data-theme="dark"]{--bg:#0A1C20;--s1:#10282D;--s2:#173439;--bd:rgba(220,240,230,.12);--tx:#E9F1EC;--mu:#8FA8A6;--brt:#C6F36B;--co:#FF7A59;--ok:#5EE0A0;--er:#FF6B6B}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:400 1rem/1.7 var(--fb);background-image:radial-gradient(var(--bd) 1px,transparent 1px);background-size:30px 30px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:40}
+button,input,select{font:inherit;color:inherit}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:var(--bg);border-bottom:1px solid var(--bd)}
+.logo{display:flex;align-items:center;gap:8px;font:700 1.25rem var(--fh);letter-spacing:.04em;cursor:pointer;background:none;border:0}
+.ic{background:none;border:1px solid var(--bd);border-radius:10px;padding:4px 12px;cursor:pointer;transition:border-color .2s}.ic:hover{border-color:var(--brt)}
+.side{display:none}
+.bot{position:fixed;bottom:0;inset-inline:0;display:flex;background:var(--s1);border-top:1px solid var(--bd);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:30}
+.ni{display:flex;align-items:center;gap:10px;background:none;border:0;color:var(--mu);padding:10px 12px;border-radius:10px;cursor:pointer;transition:.2s;text-align:start}
+.ni svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ni:hover{color:var(--tx)}.ni.on{color:var(--tx);background:var(--s2);box-shadow:inset 3px 0 0 var(--br)}[dir=rtl] .ni.on{box-shadow:inset -3px 0 0 var(--br)}
+.bot .ni{flex:1;flex-direction:column;gap:2px;font-size:.7rem;padding:6px 2px}
+main{padding-bottom:96px}
+@media(min-width:900px){.side{display:flex;flex-direction:column;gap:4px;position:fixed;top:calc(58px + env(safe-area-inset-top,0px));inset-inline-start:0;bottom:0;width:220px;padding:18px 12px;border-inline-end:1px solid var(--bd);background:var(--bg)}.bot{display:none}main{margin-inline-start:220px;padding-bottom:40px}}
+.wrap{max-width:980px;margin:auto;padding:26px 20px}.nar{max-width:660px}
+main>*{animation:pg .45s var(--ease)}@keyframes pg{from{opacity:0;transform:translateY(10px)}}
+h1{font:700 clamp(2.3rem,6.5vw,4.2rem)/1.05 var(--fh);letter-spacing:-.03em;margin:.35em 0}h2{font:700 1.5rem/1.3 var(--fh);margin:.4em 0}h3{font:600 1.1rem var(--fh);margin:.2em 0}
+[lang=ar] h1{line-height:1.3;letter-spacing:0}[lang=ar] h2,[lang=ar] h3{letter-spacing:0}
+.mu{color:var(--mu)}.sm{font-size:.85rem}.lead{font-size:1.1rem;color:var(--mu);max-width:520px}
+.tag{display:inline-block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--brt);border:1px solid var(--bd);padding:2px 12px;border-radius:99px}
+.btn{background:var(--br);color:var(--on);border:0;border-radius:12px;padding:12px 22px;font-weight:600;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(10,28,32,.2);transition:transform .2s var(--ease)}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.97)}.btn.g{background:transparent;color:var(--tx);box-shadow:inset 0 0 0 1px var(--bd)}.btn:disabled{opacity:.4;cursor:default;transform:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pn{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:18px;margin:12px 0}
+.chip{display:inline-block;border:1px solid var(--bd);border-radius:99px;padding:2px 12px;font-size:.82rem;margin:2px;background:none;cursor:default}button.chip{cursor:pointer}.chip.on{background:var(--br);color:var(--on);border-color:var(--br)}
+.bar{height:6px;background:var(--s2);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--brt);border-radius:9px;animation:grow 1s var(--ease)}@keyframes grow{from{width:0}}
+.hero{display:grid;gap:24px;align-items:center;padding:20px 0}@media(min-width:900px){.hero{grid-template-columns:1.1fr .9fr}}
+.rt{fill:none;stroke:var(--brt);stroke-width:3;stroke-linecap:round}.rt.a{stroke-dasharray:900;stroke-dashoffset:900;animation:draw 2.4s .3s var(--ease) forwards}.rt.b{stroke-width:1.5;stroke-dasharray:4 8;opacity:.5;animation:dsh 14s linear infinite}
+@keyframes draw{to{stroke-dashoffset:0}}@keyframes dsh{to{stroke-dashoffset:-240}}
+.nd{fill:var(--bg);stroke:var(--brt);stroke-width:3;animation:pop .5s var(--ease) backwards}.rt-l{font:600 13px var(--fb);fill:var(--tx)}@keyframes pop{from{r:0}}
+[data-r]{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}[data-r].in{opacity:1;transform:none}
+.cl{display:grid;grid-template-columns:130px 1fr 52px;gap:12px;align-items:center;margin:10px 0}
+.trow{display:grid;grid-template-columns:34px 1fr 24px;gap:14px;align-items:center;padding:18px 8px;border-bottom:1px solid var(--bd);cursor:pointer;transition:background .2s,padding .3s var(--ease);width:100%;background:none;border-inline:0;border-top:0;text-align:start}
+.trow:hover{background:var(--s1);padding-inline-start:18px}.trow .num{font:700 .9rem var(--fh);color:var(--brt)}@media(min-width:700px){.trow{grid-template-columns:34px 1.2fr 1fr 24px}}
+.opt{display:flex;gap:14px;align-items:center;width:100%;text-align:start;background:var(--s1);border:1.5px solid var(--bd);border-radius:14px;padding:16px;margin:10px 0;cursor:pointer;transition:.2s var(--ease)}
+.opt:hover{border-color:var(--brt);transform:translateX(4px)}[dir=rtl] .opt:hover{transform:translateX(-4px)}.opt b{width:28px;height:28px;border-radius:8px;background:var(--s2);display:grid;place-items:center;font:700 .85rem var(--fh);flex:none}
+.opt.good{border-color:var(--ok)}.opt.bad{border-color:var(--er)}.opt:disabled{cursor:default;transform:none}
+.qa{animation:slide .4s var(--ease)}@keyframes slide{from{opacity:0;transform:translateX(30px)}}[dir=rtl] .qa{animation-name:slideR}@keyframes slideR{from{opacity:0;transform:translateX(-30px)}}
+.term{background:#050F12;color:#C6F36B;font:500 .85rem/1.7 ui-monospace,Menlo,Consolas,monospace;border-radius:12px;padding:14px;direction:ltr;text-align:left;white-space:pre-wrap;margin:12px 0}
+.fb{border-inline-start:3px solid var(--brt);padding:6px 14px;margin:10px 0;animation:pg .4s var(--ease)}
+.task{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--bd);cursor:pointer}
+.ck{width:22px;height:22px;border-radius:7px;border:2px solid var(--bd);display:grid;place-items:center;flex:none;transition:.25s var(--ease);font-size:.8rem}.task.done .ck{background:var(--br);border-color:var(--br);color:var(--on);transform:scale(1.1)}.task.done span.t{text-decoration:line-through;color:var(--mu)}
+.g2{display:grid;gap:14px}@media(min-width:760px){.g2{grid-template-columns:1fr 1fr}}
+.bdg{display:flex;gap:12px;align-items:center;padding:8px 0;opacity:.4;transition:.4s}.bdg.on{opacity:1}.bdg i{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--s2);font-style:normal}.bdg.on i{background:var(--br);color:var(--on);animation:pop2 .6s var(--ease)}@keyframes pop2{from{transform:scale(0) rotate(-90deg)}}
+input[type=text],select{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:8px 12px;min-width:0}
+.toast{position:fixed;top:calc(70px + env(safe-area-inset-top,0px));inset-inline:0;margin:auto;width:max-content;max-width:90%;background:var(--br);color:var(--on);padding:8px 20px;border-radius:99px;font-weight:600;opacity:0;transform:translateY(-10px);transition:.35s var(--ease);z-index:50;pointer-events:none}.toast.on{opacity:1;transform:none}
+.note{font-size:.85rem;color:var(--mu);border:1px dashed var(--bd);border-radius:10px;padding:8px 12px;margin:12px 0}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}[data-r]{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="top"><button class="logo" data-a="go" data-v="home"><svg width="26" height="26" viewBox="0 0 26 26"><path d="M4 21C4 9 13 15 13 7s9-1 9-3" fill="none" stroke="var(--brt)" stroke-width="2.5" stroke-linecap="round"/><circle cx="4" cy="21" r="3" fill="var(--brt)"/><circle cx="22" cy="4" r="3" fill="var(--co)"/></svg>MASAR</button><span class="row"><button class="ic" data-a="lang" id="lb"></button><button class="ic" data-a="theme" aria-label="theme">◐</button></span></div>
+<aside class="side" id="side"></aside>
+<main id="m"></main>
+<nav class="bot" id="bot"></nav>
+<div class="toast" id="ts"></div>
+<script>
+const $=s=>document.querySelector(s);
+const S={lang:'en',pg:'home',tid:'net',qi:0,qa:[],cp:.5,res:null,lab:0,la:[],enj:null,done:{},bd:{},xp:0,ty:'all',gov:'all',q:''};
+const x=p=>p[S.lang==='ar'?1:0];
+const T={home:['Home','الرئيسية'],explore:['Explore','استكشف'],quiz:['Discover','اكتشف'],lab:['Labs','التجارب'],road:['Roadmap','المسار'],opp:['Radar','الفرص'],dash:['Dashboard','لوحتي'],
+tag:['Career discovery for tech beginners','اكتشاف المسار المهني للمبتدئين في التقنية'],h1:['Discover your direction. Build your future.','اكتشف اتجاهك. ابنِ مستقبلك.'],
+lead:['Tech is more than code. Find where you fit, try it for real, then follow a clear path.','التقنية مش كود بس. اعرف مكانك، جرّبه بإيدك، وامشي في مسار واضح.'],
+start:['Start discovery','ابدأ الاكتشاف'],exp:['Explore tracks','استكشف المجالات'],opt:['Optional. You can explore freely without it.','اختياري. تقدر تستكشف بحرية من غيره.'],
+nc:['Not everything is code','مش كل حاجة كود'],nc2:['How much programming each track really involves.','قد إيه البرمجة موجودة فعلاً في كل مجال.'],how:['How it works','إزاي بتشتغل'],cod:['code','برمجة'],
+q:['Question','سؤال'],back:['Back','رجوع'],top3:['Your top 3 paths','أنسب 3 مسارات لك'],mt:['match','تطابق'],note:['Guidance, not a verdict. You can change your mind anytime.','ترشيح إرشادي مش حكم. تقدر تغيّر رأيك في أي وقت.'],prof:['Your interest profile','بروفايل ميولك'],
+open:['Open track','افتح المجال'],try:['Try the lab','جرّب التجربة'],sr:['Start roadmap','ابدأ المسار'],sk:['Skills & tools','المهارات والأدوات'],lp:['Learning path','مسار التعلم'],lv:['Level','المستوى'],du:['Duration','المدة'],wk:['weeks','أسبوع'],
+lt:['Taster Labs','تجارب المبتدئين'],ld:['Try the work for 10 minutes before you commit.','جرّب الشغل 10 دقايق قبل ما تلتزم.'],soon:['Coming soon','قريباً'],ln:['Networking: No Internet','الشبكات: مفيش إنترنت'],
+nx:['Next','التالي'],fin:['See result','شوف النتيجة'],again:['Retry','أعد المحاولة'],eq:['Did you enjoy it?','استمتعت بالتجربة؟'],
+hi:['Welcome back','أهلاً بيك'],pr:['Roadmap progress','تقدم المسار'],xp:['XP','نقاط'],ns:['Next step','الخطوة الجاية'],bg:['Achievements','الإنجازات'],ofy:['Opportunities for you','فرص مناسبة لك'],
+none:['Take the quiz or pick a track first.','ابدأ بالاختبار أو اختار مجال الأول.'],sch:['Search programs…','دوّر على برنامج…'],gall:['All governorates','كل المحافظات'],dl:['days left','يوم متبقي'],smp:['Sample data for the prototype only.','بيانات تجريبية للعرض فقط.'],
+sdone:['Stage complete! 🎉','مرحلة مكتملة! 🎉'],bfq:['First discovery unlocked','أول اكتشاف اتفتح'],bfl:['First lab unlocked','أول تجربة اتفتحت'],yes:['Yes','أيوه'],sw:['Somewhat','نوعاً ما'],no:['No','لا']};
+const t=k=>x(T[k]);
+const DIFF=[['Beginner','مبتدئ'],['Intermediate','متوسط']];
+const DN=[['practical','العملي'],['analytical','التحليلي'],['creative','الإبداعي'],['social','الاجتماعي'],['driven','القيادي'],['organized','المنظّم']];
+const TR=[
+{id:'net',n:['Networking','الشبكات'],d:['Keep devices and services connected and running.','تخلّي الأجهزة والخدمات متصلة وشغالة.'],c:25,wk:14,df:0,sk:['TCP/IP','Subnetting','DHCP & DNS','Packet Tracer','Wireshark','Linux basics'],v:[3,2,0,1,1,3]},
+{id:'sec',n:['Cybersecurity','الأمن السيبراني'],d:['Protect people and systems from attacks and fraud.','تحمي الناس والأنظمة من الاختراق والاحتيال.'],c:45,wk:20,df:1,sk:['Threat analysis','Phishing detection','Linux','Wireshark','OWASP Top 10','Python (basic)'],v:[2,4,0,0,2,3]},
+{id:'data',n:['Data Analysis','تحليل البيانات'],d:['Turn raw numbers into decisions people trust.','تحوّل الأرقام الخام لقرارات يوثق فيها الناس.'],c:35,wk:16,df:0,sk:['Excel / Sheets','SQL','Power BI','Python (pandas)','Statistics','Data storytelling'],v:[0,5,1,1,2,4]},
+{id:'ux',n:['UI/UX Design','تصميم تجربة المستخدم'],d:['Shape how products look, feel, and work for people.','تصمم شكل المنتج وإحساسه وطريقة استخدامه.'],c:10,wk:12,df:0,sk:['User research','Wireframing','Figma','Prototyping','Usability testing','Design systems'],v:[0,2,5,4,2,1]},
+{id:'web',n:['Web Development','تطوير الويب'],d:['Build the sites and apps people use every day.','تبني المواقع والتطبيقات اللي الناس بتستخدمها كل يوم.'],c:90,wk:26,df:1,sk:['HTML/CSS','JavaScript','React','Git','APIs','Node.js'],v:[2,3,3,0,1,2]},
+{id:'mkt',n:['Digital Marketing','التسويق الرقمي'],d:['Reach the right audience and measure what works.','توصّل للجمهور المناسب وتقيس اللي بينجح.'],c:5,wk:10,df:0,sk:['SEO','Content strategy','Google Analytics','Meta Ads','Copywriting','A/B testing'],v:[0,2,3,4,5,2]}];
+const tr=id=>TR.find(o=>o.id===id);
+const Q=[
+[['Which task sounds most like you?','أنهي مهمة أقرب ليك؟'],[[['Find out why something broke','أعرف ليه حاجة باظت'],[0,3,0,0,0,1]],[['Design something people love using','أصمم حاجة الناس تحب تستخدمها'],[0,0,3,1,0,0]],[['Set up a system that just works','أجهّز نظام يشتغل بثبات'],[3,0,0,0,0,2]]]],
+[['In a team, you are the one who…','في الفريق إنت اللي…'],[[['Leads and convinces others','بيقود وبيقنع'],[0,0,0,1,3,0]],[['Checks every detail','بيراجع كل تفصيلة'],[0,1,0,0,0,3]],[['Brings fresh ideas','بيجيب أفكار جديدة'],[0,0,3,1,0,0]]]],
+[['Numbers and spreadsheets feel…','الأرقام والجداول بالنسبة لك…'],[[['Fun','ممتعة'],[0,3,0,0,0,2]],[['Fine, with a purpose','مقبولة لو في هدف'],[0,1,0,0,0,1]],[['Not my thing','مش بحبها'],[0,0,1,2,1,0]]]],
+[['Pick a project','اختار مشروع'],[[['Protect an app from attackers','أحمي تطبيق من المخترقين'],[2,3,0,0,0,1]],[['Launch a campaign that spreads','أطلق حملة تنتشر'],[0,0,1,2,3,0]],[['Build a site from scratch','أبني موقع من الصفر'],[2,2,2,0,0,0]]]],
+[['You get energy from…','طاقتك بتيجي من…'],[[['Solving puzzles alone','حل الألغاز لوحدي'],[1,3,0,0,0,1]],[['Helping people','مساعدة الناس'],[0,0,1,3,1,0]],[['Making things look great','إخراج الحاجة بشكل جميل'],[0,0,3,1,0,0]]]],
+[['Writing code makes you feel…','كتابة الكود بتحسسك…'],[[['Excited','متحمس'],[2,1,0,0,0,0,.9]],[['Curious, but cautious','فضولي بس حذر'],[1,1,0,0,0,0,.5]],[['Drained','مستنزف'],[0,0,1,1,0,0,.1]]]]];
+const LAB=[
+{q:['Sara\'s PC says “No Internet”, but everyone else is online. Where do you start?','جهاز سارة بيقول «No Internet» وباقي الأجهزة شغالة. هتبدأ منين؟'],o:[
+[['Reinstall Windows','أعيد تثبيت الويندوز'],0,['Too drastic. Rule out simple causes first.','قرار متسرع. استبعد الأسباب البسيطة الأول.']],
+[['Check the cable / Wi-Fi link','أتأكد من الكابل أو اتصال الواي فاي'],1,['Right: start with the physical layer.','صح: ابدأ دايماً بالطبقة الفيزيائية.']],
+[['Replace the router','أغيّر الراوتر'],0,['Others are online, so the router is likely fine.','باقي الأجهزة شغالة، فالراوتر غالباً سليم.']]]},
+{term:'> ipconfig\nIPv4 Address . . . : 169.254.12.7\nDefault Gateway . : (empty)',q:['The cable is fine. What does 169.254.x.x suggest?','الكابل سليم. إيه معنى 169.254.x.x؟'],o:[
+[['The PC failed to get an address from DHCP','الجهاز ماقدرش ياخد عنوان من DHCP'],1,['Correct: it is an automatic fallback (APIPA) address.','صح: ده عنوان احتياطي بيتحط تلقائياً (APIPA).']],
+[['The website is blocked','الموقع محجوب'],0,['A blocked site would not change the PC\'s own address.','حجب موقع مش بيغيّر عنوان الجهاز نفسه.']],
+[['The PC has a virus','الجهاز فيه فيروس'],0,['No evidence yet. The address points to DHCP.','مفيش دليل. العنوان بيشاور على DHCP.']]]},
+{q:['Best next action?','أنسب خطوة بعدها؟'],o:[
+[['Renew the lease and check the DHCP service','أجدد العنوان وأتأكد من خدمة DHCP'],1,['Exactly. Run ipconfig /renew, then verify the DHCP server.','بالظبط. نفّذ ipconfig /renew وتأكد من سيرفر DHCP.']],
+[['Set a random static IP','أحط IP ثابت عشوائي'],0,['Risky: it can cause address conflicts.','خطر: ممكن يعمل تعارض عناوين.']],
+[['Buy a new network card','أشتري كارت شبكة جديد'],0,['Premature. Check configuration before hardware.','متسرع. افحص الإعدادات قبل الهاردوير.']]]}];
+const OPP=[['DEPI – Data Analyst Track','DEPI','tr','all','data',3],['ITI – Network Administration','ITI','tr','Cairo','net',8],['NTI – Cybersecurity Fundamentals','NTI','tr','Giza','sec',12],['ITI – UI/UX Summer Internship','ITI','in','Alexandria','ux',20],['Web Dev Bootcamp Scholarship','Partner','sc','all','web',15],['Digital Marketing Meetup','Community','ev','Beheira','mkt',5],['ITI – Web Development','ITI','tr','Beheira','web',6],['Cloud & Networking Open Day','NTI','ev','Giza','net',9]];
+const OT={all:['All','الكل'],in:['Internships','تدريب'],tr:['Training','دورات'],sc:['Scholarships','منح'],ev:['Events','فعاليات']};
+const GOV={all:['All governorates','كل المحافظات'],Cairo:['Cairo','القاهرة'],Giza:['Giza','الجيزة'],Alexandria:['Alexandria','الإسكندرية'],Beheira:['Beheira','البحيرة']};
+const STG=[['Foundations','الأساسيات'],['Hands-on','التطبيق'],['Portfolio project','مشروع ختامي']];
+const TASKS=[[['What is {n}?','ما هو {n}؟'],['Core terms & tools','المصطلحات والأدوات الأساسية']],[['First hands-on exercise','أول تمرين عملي'],['Solve a small real problem','حل مشكلة حقيقية صغيرة']],[['Build a portfolio piece','ابنِ مشروع للـ Portfolio'],['Share it and get feedback','شاركه واحصل على ملاحظات']]];
+const TM=[['Read','قراءة',20],['Video','فيديو',30],['Exercise','تمرين',45],['Practice','تطبيق',60],['Project','مشروع',120],['Review','مراجعة',30]];
+const IC={home:'M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',explore:'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM16 8l-2 6-6 2 2-6z',quiz:'M12 2l2.4 7.4H22l-6 4.6 2.3 7.4L12 16.8 5.7 21.4 8 14 2 9.4h7.6z',lab:'M9 3h6M10 3v6L4 19a1.5 1.5 0 0 0 1.3 2h13.4A1.5 1.5 0 0 0 20 19l-6-10V3',road:'M6 3v12M6 15a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM18 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM18 9v3a3 3 0 0 1-3 3H9',opp:'M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11zM12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',dash:'M4 20V10M10 20V4M16 20v-7M22 20H2'};
+const NAV=['home','explore','quiz','lab','road','opp','dash'],BOT=['home','explore','road','opp','dash'];
+const ni=k=>`<button class="ni ${S.pg===k?'on':''}" data-a="go" data-v="${k}"><svg viewBox="0 0 24 24"><path d="${IC[k]}"/></svg>${t(k)}</button>`;
+function toast(m){const e=$('#ts');e.textContent=m;e.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove('on'),2200)}
+function award(k,m,xp){if(S.bd[k])return;S.bd[k]=1;S.xp+=xp;if(m)toast(m)}
+const prog=id=>{let n=0;for(let s=0;s<3;s++)for(let i=0;i<2;i++)if(S.done[id+s+i])n++;return n};
+const nm=id=>x(tr(id).n);
+const bar=p=>`<div class="bar"><i style="width:${p}%"></i></div>`;
+
+const ROUTE=()=>`<svg viewBox="0 0 440 300" role="img" aria-label="path"><path class="rt b" d="M30 250C130 250 120 140 220 150S340 60 410 40"/><path class="rt a" d="M30 250C130 250 120 140 220 150S340 60 410 40"/>${[[30,250,0],[130,196,1],[250,130,2],[410,40,3]].map(n=>`<circle class="nd" cx="${n[0]}" cy="${n[1]}" r="9" style="animation-delay:${.4+n[2]*.5}s"/><text class="rt-l" x="${n[0]}" y="${n[1]+28}" text-anchor="middle">${['Discover','Try','Learn','Apply'][n[2]]==='Discover'&&S.lang==='ar'?'اكتشف':S.lang==='ar'?['','جرّب','اتعلّم','اتقدّم'][n[2]]:['Discover','Try','Learn','Apply'][n[2]]}</text>`).join('')}</svg>`;
+const STEPS=[['Discover','اكتشف','Take the optional quiz or browse every track.','اعمل الاختبار الاختياري أو تصفح كل المجالات.'],['Try','جرّب','Run a short scenario and see if the work clicks.','جرّب سيناريو قصير وشوف الشغل مناسبك ولا لأ.'],['Learn','اتعلّم','Follow a staged roadmap with clear milestones.','امشي في خارطة مراحل بمعالم واضحة.'],['Apply','اتقدّم','Find local trainings and internships that fit.','لاقي تدريبات وفرص محلية مناسبة ليك.']];
+
+const P={
+home:()=>`<div class="wrap"><section class="hero"><div><span class="tag">${t('tag')}</span><h1>${t('h1')}</h1><p class="lead">${t('lead')}</p><div class="row"><button class="btn" data-a="go" data-v="quiz">${t('start')}</button><button class="btn g" data-a="go" data-v="explore">${t('exp')}</button></div><p class="sm mu">${t('opt')}</p></div>${ROUTE()}</section>
+<section data-r style="margin-top:50px"><h2>${t('nc')}</h2><p class="mu">${t('nc2')}</p>${[...TR].sort((a,b)=>a.c-b.c).map(o=>`<div class="cl"><span>${x(o.n)}</span>${bar(o.c)}<b class="sm">${o.c}%</b></div>`).join('')}</section>
+<section data-r style="margin-top:40px"><h2>${t('how')}</h2><div class="g2">${STEPS.map((s,i)=>`<div class="pn"><span class="tag">0${i+1}</span><h3>${x([s[0],s[1]])}</h3><p class="mu sm">${x([s[2],s[3]])}</p></div>`).join('')}</div></section></div>`,
+explore:()=>`<div class="wrap"><h1 style="font-size:clamp(2rem,5vw,3rem)">${t('exp')}</h1><p class="lead">${t('nc2')}</p>${TR.map((o,i)=>`<button class="trow" data-a="open" data-v="${o.id}"><span class="num">0${i+1}</span><span><h3>${x(o.n)}</h3><span class="mu sm">${x(o.d)}</span></span><span class="row" style="flex-wrap:nowrap"><span style="flex:1;min-width:60px">${bar(o.c)}</span><b class="sm">${o.c}%</b></span><span>${S.lang==='ar'?'←':'→'}</span></button>`).join('')}</div>`,
+track:()=>{const o=tr(S.tid);return`<div class="wrap"><button class="ic" data-a="go" data-v="explore">${S.lang==='ar'?'→':'←'} ${t('back')}</button><h1>${x(o.n)}</h1><p class="lead">${x(o.d)}</p>
+<div class="g2"><div class="pn"><span class="mu sm">${t('lv')}</span><h3>${x(DIFF[o.df])}</h3></div><div class="pn"><span class="mu sm">${t('du')}</span><h3>~${o.wk} ${t('wk')}</h3></div></div>
+<div class="pn"><span class="mu sm">${o.c}% ${t('cod')}</span>${bar(o.c)}</div>
+<h2>${t('sk')}</h2><div>${o.sk.map(s=>`<span class="chip">${s}</span>`).join('')}</div>
+<h2>${t('lp')}</h2>${STG.map((s,i)=>`<div class="task" style="cursor:default"><span class="num tag">0${i+1}</span><span>${x(s)}</span></div>`).join('')}
+<div class="row" style="margin-top:22px"><button class="btn" data-a="road" data-v="${o.id}">${t('sr')}</button>${o.id==='net'?`<button class="btn g" data-a="go" data-v="lab">${t('try')}</button>`:''}</div></div>`},
+quiz:()=>{const i=S.qi,q=Q[i];return`<div class="wrap nar"><div class="row" style="justify-content:space-between"><span class="mu sm">${t('q')} ${i+1}/${Q.length}</span><span class="sm mu">${t('opt')}</span></div>${bar((i+1)/Q.length*100)}
+<div class="qa" style="margin-top:24px"><h2>${x(q[0])}</h2>${q[1].map((o,k)=>`<button class="opt" data-a="pick" data-v="${k}"><b>${'ABC'[k]}</b>${x(o[0])}</button>`).join('')}</div>${i?`<button class="ic" data-a="qb">${t('back')}</button>`:''}</div>`},
+res:()=>{const r=S.res,u=r.u,mx=Math.max(...u,1),C=130,R=90,pt=(i,f)=>{const a=-Math.PI/2+i*Math.PI/3;return[C+R*f*Math.cos(a),C+R*f*Math.sin(a)]};
+return`<div class="wrap nar"><h1 style="font-size:clamp(2rem,5vw,3rem)">${t('top3')}</h1>${r.top.map((o,i)=>`<div class="pn"><div class="row" style="justify-content:space-between"><h3><span class="num" style="color:var(--brt)">0${i+1}</span> ${nm(o.id)}</h3><b>${o.p}% <span class="mu sm">${t('mt')}</span></b></div>${bar(o.p)}<p class="mu sm">${o.why}</p><button class="btn g" data-a="open" data-v="${o.id}">${t('open')}</button></div>`).join('')}
+<div class="pn"><h3>${t('prof')}</h3><svg viewBox="0 0 260 260" style="max-width:280px;display:block;margin:auto">${[.33,.66,1].map(f=>`<polygon points="${DN.map((_,i)=>pt(i,f)).join(' ')}" fill="none" stroke="var(--bd)"/>`).join('')}<polygon points="${DN.map((_,i)=>pt(i,Math.max(.08,u[i]/mx)).join(',')).join(' ')}" fill="var(--brt)" fill-opacity=".25" stroke="var(--brt)" stroke-width="2" style="transform-origin:130px 130px;animation:rz .9s var(--ease)"/>${DN.map((d,i)=>{const[a,b]=pt(i,1.2);return`<text x="${a}" y="${b+4}" text-anchor="middle" font-size="11" fill="var(--tx)">${x(d)}</text>`}).join('')}</svg></div><style>@keyframes rz{from{transform:scale(0)}}</style>
+<p class="note">${t('note')}</p><button class="btn g" data-a="go" data-v="quiz">${t('again')}</button></div>`},
+lab:()=>{if(S.lab>=3)return PL();const s=LAB[S.lab],a=S.la[S.lab];return`<div class="wrap nar"><span class="tag">${t('ln')}</span><div class="row" style="margin:10px 0"><span class="mu sm">${S.lab+1}/3</span><span style="flex:1">${bar((S.lab+1)/3*100)}</span></div>${s.term?`<div class="term">${s.term}</div>`:''}<div class="qa"><h2>${x(s.q)}</h2>${s.o.map((o,k)=>`<button class="opt ${a===undefined?'':o[1]?'good':a===k?'bad':''}" ${a===undefined?'':'disabled'} data-a="lp" data-v="${k}"><b>${'ABC'[k]}</b>${x(o[0])}</button>`).join('')}</div>${a!==undefined?`<div class="fb">${x(s.o[a][2])}</div><button class="btn" data-a="ln">${S.lab===2?t('fin'):t('nx')}</button>`:''}</div>`},
+road:()=>{const o=tr(S.tid),n=prog(o.id);return`<div class="wrap nar"><div class="row">${TR.map(r=>`<button class="chip ${r.id===S.tid?'on':''}" data-a="road" data-v="${r.id}">${x(r.n)}</button>`).join('')}</div><h1 style="font-size:2.2rem">${x(o.n)}</h1><div class="row"><span class="mu sm">${n}/6</span><span style="flex:1">${bar(n/6*100)}</span></div>
+${STG.map((s,si)=>`<div class="pn"><h3>${si+1}. ${x(s)}</h3>${TASKS[si].map((k,i)=>{const m=TM[si*2+i],d=S.done[o.id+si+i];return`<div class="task ${d?'done':''}" data-a="tk" data-v="${si}${i}"><span class="ck">${d?'✓':''}</span><span class="t" style="flex:1">${x(k).replace('{n}',nm(o.id))}<br><span class="mu sm">${x([m[0],m[1]])} · ${m[2]} min</span></span></div>`}).join('')}</div>`).join('')}</div>`},
+opp:()=>{const L=OPP.filter(o=>(S.ty==='all'||o[2]===S.ty)&&(S.gov==='all'||o[3]==='all'||o[3]===S.gov)&&(!S.q||o[0].toLowerCase().includes(S.q.toLowerCase())));
+return`<div class="wrap"><h1 style="font-size:clamp(2rem,5vw,3rem)">${t('opp')}</h1><div class="row"><input type="text" id="qs" placeholder="${t('sch')}" value="${S.q}"><select id="gs">${Object.keys(GOV).map(g=>`<option value="${g}" ${g===S.gov?'selected':''}>${x(GOV[g])}</option>`).join('')}</select></div><div class="row" style="margin:12px 0">${Object.keys(OT).map(k=>`<button class="chip ${S.ty===k?'on':''}" data-a="ty" data-v="${k}">${x(OT[k])}</button>`).join('')}</div>
+${L.map(o=>`<div class="pn"><div class="row" style="justify-content:space-between"><h3>${o[0]}</h3><span class="chip" style="${o[5]<=7?'border-color:var(--co);color:var(--co)':''}">${o[5]} ${t('dl')}</span></div><span class="mu sm">${o[1]} · ${x(GOV[o[3]])} · </span><span class="chip">${x(OT[o[2]])}</span><span class="chip">${nm(o[4])}</span></div>`).join('')||`<p class="mu">—</p>`}<p class="note">${t('smp')}</p></div>`},
+dash:()=>{const o=tr(S.tid),n=prog(o.id),C=2*Math.PI*44,nx=[0,1,2].flatMap(s=>[0,1].map(i=>[s,i])).find(([s,i])=>!S.done[o.id+s+i]),rel=OPP.filter(p=>p[4]===o.id);
+const B=[['quiz','★',T.bfq],['lab','⚗',T.bfl],['stg','✔',T.sdone]];
+return`<div class="wrap"><h1 style="font-size:clamp(2rem,5vw,3rem)">${t('hi')} 👋</h1><div class="g2"><div class="pn row" style="gap:20px"><svg width="110" height="110" viewBox="0 0 110 110"><circle cx="55" cy="55" r="44" fill="none" stroke="var(--s2)" stroke-width="9"/><circle cx="55" cy="55" r="44" fill="none" stroke="var(--brt)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-n/6)}" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 1s var(--ease)"/><text x="55" y="61" text-anchor="middle" font-size="20" font-weight="700" fill="var(--tx)">${Math.round(n/6*100)}%</text></svg><div><span class="mu sm">${t('pr')}</span><h3>${nm(o.id)}</h3><b>${S.xp} ${t('xp')}</b></div></div>
+<div class="pn"><span class="mu sm">${t('ns')}</span><h3>${nx?x(TASKS[nx[0]][nx[1]]).replace('{n}',nm(o.id)):'🎉'}</h3><button class="btn" data-a="road" data-v="${o.id}">${t('sr')}</button></div></div>
+<div class="g2"><div class="pn"><h3>${t('bg')}</h3>${B.map(b=>`<div class="bdg ${S.bd[b[0]]?'on':''}"><i>${b[1]}</i><span>${x(b[2])}</span></div>`).join('')}</div>
+<div class="pn"><h3>${t('ofy')}</h3>${rel.map(p=>`<p><b>${p[0]}</b><br><span class="mu sm">${p[5]} ${t('dl')}</span></p>`).join('')||`<p class="mu">${t('none')}</p>`}</div></div></div>`}};
+function PL(){const n=S.la.filter((a,i)=>LAB[i].o[a][1]).length;return`<div class="wrap nar"><h1 style="font-size:2.4rem">${n}/3 ✓</h1><div class="pn"><h3>${t('eq')}</h3>${[['yes','Y'],['sw','S'],['no','N']].map(e=>`<button class="chip ${S.enj===e[1]?'on':''}" data-a="enj" data-v="${e[1]}">${t(e[0])}</button>`).join('')}</div><div class="row"><button class="btn" data-a="road" data-v="net">${t('sr')}</button><button class="btn g" data-a="lr">${t('again')}</button></div></div>`}
+P.lab0=P.lab;P.lab=()=>S.lab===-1?labs():P.lab0();
+function labs(){return`<div class="wrap"><h1 style="font-size:clamp(2rem,5vw,3rem)">${t('lt')}</h1><p class="lead">${t('ld')}</p><div class="g2"><div class="pn"><span class="tag">${nm('net')}</span><h3>${t('ln')}</h3><p class="mu sm">3 steps · ~10 min</p><button class="btn" data-a="ls">${t('try')}</button></div>${['sec','data'].map(i=>`<div class="pn" style="opacity:.55"><span class="tag">${nm(i)}</span><h3>—</h3><button class="btn" disabled>${t('soon')}</button></div>`).join('')}</div></div>`}
+
+function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang==='ar'?'rtl':'ltr';$('#lb').textContent=S.lang==='ar'?'EN':'ع';$('#side').innerHTML=NAV.map(ni).join('');$('#bot').innerHTML=BOT.map(ni).join('');
+ const pg=S.pg==='open'?'track':S.pg;$('#m').innerHTML=P[pg]();document.querySelectorAll('[data-r]').forEach(e=>io.observe(e));window.scrollTo(0,0)}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+function finishQuiz(){const u=[0,0,0,0,0,0];let cp=.5;S.qa.forEach((k,i)=>{const w=Q[i][1][k][1];for(let j=0;j<6;j++)u[j]+=w[j];if(w[6]!==undefined)cp=w[6]});
+ const un=Math.hypot(...u)||1,top=TR.map(o=>{const cos=o.v.reduce((a,b,j)=>a+b*u[j],0)/(Math.hypot(...o.v)*un),m=cos-.25*Math.abs(cp-o.c/100),p=Math.round(Math.max(40,Math.min(97,(m-.25)/.7*100)));
+ const d=o.v.map((v,j)=>[v*u[j],j]).sort((a,b)=>b[0]-a[0]).slice(0,2).map(z=>x(DN[z[1]]));return{id:o.id,p,why:S.lang==='ar'?`جانبك ${d[0]} و${d[1]} مناسب للمجال ده، ومستوى حبك للبرمجة قريب من المطلوب.`:`Your ${d[0]} and ${d[1]} side fits this field, and your comfort with code is close to what it needs.`}}).sort((a,b)=>b.p-a.p).slice(0,3);
+ S.res={u,top};award('quiz',t('bfq'),50);S.pg='res';render()}
+function act(a,v){switch(a){
+ case'go':S.pg=v;if(v==='lab')S.lab=-1;break;case'open':S.tid=v;S.pg='track';break;case'road':S.tid=v;S.pg='road';break;
+ case'lang':S.lang=S.lang==='ar'?'en':'ar';break;case'theme':{const r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';return}
+ case'pick':S.qa[S.qi]=+v;if(S.qi<Q.length-1)S.qi++;else return finishQuiz();break;case'qb':S.qi--;break;
+ case'ls':S.lab=0;S.la=[];break;case'lp':S.la[S.lab]=+v;break;case'ln':S.lab++;if(S.lab>=3)award('lab',t('bfl'),75);break;case'lr':S.lab=0;S.la=[];break;case'enj':S.enj=v;break;
+ case'tk':{const s=+v[0],i=+v[1],k=S.tid+s+i;if(S.done[k]){delete S.done[k]}else{S.done[k]=1;S.xp+=20;if(S.done[S.tid+s+0]&&S.done[S.tid+s+1]){toast(t('sdone'));award('stg',null,100)}}break}
+ case'ty':S.ty=v;break}
+ render()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b)act(b.dataset.a,b.dataset.v)});
+document.addEventListener('input',e=>{if(e.target.id==='qs'){S.q=e.target.value;const p=e.target.selectionStart,y=scrollY;render();scrollTo(0,y);const n=$('#qs');n.focus();n.setSelectionRange(p,p)}});
+document.addEventListener('change',e=>{if(e.target.id==='gs'){S.gov=e.target.value;render()}});
+render();
+</script>
+</body>
+</html>
